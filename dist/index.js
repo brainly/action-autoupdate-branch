@@ -5831,6 +5831,15 @@ function getPRDetails(pr, client) {
 function registerAction(pr, client) {
     return __awaiter(this, void 0, void 0, function* () {
         const { data } = yield getPRDetails(pr, client);
+        const requiredApprovals = parseInt(core.getInput('requiredApprovals') || '0', 10);
+        if (requiredApprovals) {
+            const { data: reviews } = yield client.pulls.listReviews(Object.assign(Object.assign({}, github.context.repo), { pull_number: pr.number }));
+            const approvals = reviews.filter(review => review.state === 'APPROVED');
+            if (approvals.length < requiredApprovals) {
+                console.log(`PR doesn't have ${requiredApprovals} approvals.`);
+                return;
+            }
+        }
         if (data.mergeable) {
             yield client.pulls.updateBranch(Object.assign(Object.assign({}, github.context.repo), { pull_number: pr.number }));
         }

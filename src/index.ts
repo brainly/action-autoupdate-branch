@@ -18,6 +18,21 @@ async function getPRDetails(pr, client) {
 
 async function registerAction(pr, client) {
   const {data} = await getPRDetails(pr, client)
+  const requiredApprovals = parseInt(core.getInput('requiredApprovals') || '0', 10)
+
+  if (requiredApprovals) {
+    const {data: reviews} = await client.pulls.listReviews({
+      ...context.repo,
+      pull_number: pr.number
+    })
+
+    const approvals = reviews.filter(review => review.state === 'APPROVED')
+
+    if (approvals.length < requiredApprovals) {
+      console.log(`PR doesn't have ${requiredApprovals} approvals.`)
+      return;
+    }
+  }
 
   if (data.mergeable) {
     await client.pulls.updateBranch({

@@ -11,6 +11,9 @@ inputs:
   label:
     description: 'Action will update branches with this label'
     required: true
+  requiredApprovals:
+    description: 'Number of required approvals before branch should be updated'
+    required: false
 
 outputs:
   hasConflicts:
