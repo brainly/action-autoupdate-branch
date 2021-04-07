@@ -23,6 +23,8 @@ jobs:
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           label: 'YOUR LABEL NAME'
+          requiredApprovals: 1 #Number of required approvals before branch should be updated
+
 ```
 - Add label to your Pull Request
 - That's it, now branches with particular label will be auto updated.
