@@ -5830,8 +5830,10 @@ function getPRDetails(pr, client) {
 }
 function registerAction(pr, client) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log('pr input: ', pr);
         const { data } = yield getPRDetails(pr, client);
         const requiredApprovals = parseInt(core.getInput('requiredApprovals') || '0', 10);
+        console.log('pr details: ', data);
         if (requiredApprovals) {
             const { data: reviews } = yield client.pulls.listReviews(Object.assign(Object.assign({}, github.context.repo), { pull_number: pr.number }));
             const approvals = reviews.filter(review => review.state === 'APPROVED');
@@ -5851,7 +5853,7 @@ function registerAction(pr, client) {
                 user: {
                     login: data.user.login,
                     url: data.user.html_url,
-                    avatarUrl: data.user.avatarUrl
+                    avatarUrl: data.user.avatar_url
                 }
             }));
         }

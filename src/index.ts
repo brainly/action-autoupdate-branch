@@ -49,7 +49,7 @@ async function registerAction(pr, client) {
         user: {
           login: data.user.login,
           url: data.user.html_url,
-          avatarUrl: data.user.avatarUrl
+          avatarUrl: data.user.avatar_url
         }
       })
     )
