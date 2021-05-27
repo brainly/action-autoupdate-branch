@@ -58,7 +58,6 @@ async function registerAction(pr, client) {
 
 async function main() {
   const token = core.getInput('repo-token')
-  const label = core.getInput('label')
   const client = getOctokit(token)
   const baseBranch = context.payload.ref
 
@@ -70,11 +69,9 @@ async function main() {
 
   /*
     Filter received Pull Request to get only those
-    which has proper label
+    which has auto_merge enabled
    */
-  const prs = (pullsResponse.data || []).filter(pr =>
-    pr.labels.find(prLabel => prLabel.name === label)
-  )
+  const prs = (pullsResponse.data || []).filter(pr => !!pr.auto_merge)
 
   const branchNames = prs.map(pr => pr.head.label).join(', ')
   console.log(`Will attempt to update the following branches: ${branchNames}`)

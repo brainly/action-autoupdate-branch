@@ -2,7 +2,7 @@
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
-A github action to auto update labeled branches with base branch.
+A github action to auto update branches (with enabled auto merge option) with base branch.
 
 Action can do great work with Github automerge feature: [Automatically merging a pull request
 ](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/automatically-merging-a-pull-request)
@@ -22,12 +22,10 @@ jobs:
         id: autoUpdateBranch
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          label: 'YOUR LABEL NAME'
           requiredApprovals: 1 #Number of required approvals before branch should be updated
 
 ```
-- Add label to your Pull Request
-- That's it, now branches with particular label will be auto updated.
+- PR which has enabled auto merge will be automatically updated
 
 ## Outputs
 This action also returns some output in case you would like to use this in your workflow:
